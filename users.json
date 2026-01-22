@@ -1,20 +1,14 @@
 [
   {
     "username": "admin",
-    "password": "1234"
+    "password": "$2b$10$olZt64p6Xe92UU92ZC0VNuTBUoJb8zSlrN.fDF5dt5Wgr0qSvNkxO"
   },
   {
     "username": "john",
-    "password": "abcd"
+    "password": "$2b$10$upM4Ca.dv87P1I8v0G2/V.3A2DWugfmq0bUa6X3.TpELh3dy0zkhW"
   },
   {
     "username": "sarah",
-    "password": "pass123"
-  },
-  {
-    "username": "polwin",
-    "password": "756090"
+    "password": "$2b$10$PnbZXuUQN81O4NwAPWQf5.XXmZ4OFGUJ.NN5Ko8nu4DiRFThWKUfa"
   }
 ]
-
-
