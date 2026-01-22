@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(express.json());
@@ -21,10 +22,12 @@ app.get("/", (req, res) => {
   res.send("Backend is running");
 });
 
-// Login route
-app.post("/login", (req, res) => {
+// ================= LOGIN ROUTE =================
+// 🔴 NOTE: async is REQUIRED because we use await
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
+  // Validate input
   if (!username || !password) {
     return res.json({
       success: false,
@@ -34,24 +37,33 @@ app.post("/login", (req, res) => {
 
   const users = getUsers();
 
-  const user = users.find(
-    u => u.username === username && u.password === password
-  );
+  // Find user by username ONLY
+  const user = users.find(u => u.username === username);
 
-  if (user) {
-    res.json({
+  if (!user) {
+    return res.json({
+      success: false,
+      message: "Invalid username or password"
+    });
+  }
+
+  // Compare hashed password
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (isMatch) {
+    return res.json({
       success: true,
       message: "Login successful"
     });
   } else {
-    res.json({
+    return res.json({
       success: false,
       message: "Invalid username or password"
     });
   }
 });
 
-// IMPORTANT: use process.env.PORT
+// IMPORTANT: Render uses process.env.PORT
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
